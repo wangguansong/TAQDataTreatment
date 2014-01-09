@@ -1,0 +1,69 @@
+TAQ Data Treatment
+
+TAQ Database contains intradaily trading and quoting records. The
+trading volume has greatly increased due to the electronic communication
+network. Users can use SAS to directly fetch the dataset. When using
+the TAQ website to request and download files from TAQ, they usually
+have large sizes and are difficult to work on.
+This project uses shell script (mainly awk) and Rscript to seperate the
+large files into small data files (R data files) according to each stock
+and trading date. Some preliminary data treatment are also included to
+filter out faulty records.
+The files and scripts are described in the following.
+
+------------------------------------------------------------------------
+
+dj30.txt
+It contains a list of symbols of DJ30 stocks (in 2012). It is used to
+obtain DJ30 stocks' intradaily records in TAQ database.
+
+dj30_name.csv
+It contains the symbols, names, and stock exchanges of the DJ30 stocks.
+
+halfdays.txt
+It contains half trading days from 1993 to 2012. The format is numeric:
+yyyymmdd.
+
+------------------------------------------------------------------------
+
+TAQSplit2RData.sh
+TAQcsv2RData.R
+TAQSplit2gz.sh
+SortRData.sh
+They are the scripts to seperate large files into either RData files or
+compressed csv files. The small files are in the same directory as the
+large file. Then the files can be sorted into sub-directories according
+to stocks. For each large file the script creates an index file with
+the line numbers of each stock/date.
+
+TAQExtract.sh
+TAQExtract.R
+Given a symbol and a date, the script find the records from the large
+data file. If an index file exists, it utilizes the information.
+
+------------------------------------------------------------------------
+
+TAQFilter.R
+An R function that takes the data frame or the path to the RData file as
+input and returns a logical vector whose TRUE implies a normal record
+and FALSE implies a faulty record.
+
+TAQError.R
+An R function that takes the data frame or the path to the RData file as
+input and returns a logical vector which has FALSE on the prices that
+yield obsurd returns (those may be caused by mislocated decimal point).
+
+TAQOutLiersBHLS.R
+An R function that takes a vector of prices and returns a logical vector
+which has TRUE on the possible outliers.
+
+TAQSparseSample.R
+An R function that takes the data frame and returns a sparsed sampled
+data frame with only time and price columns.
+
+------------------------------------------------------------------------
+
+TAQCondPlot.R
+An R function that takes the data frame or the path to the RData file as
+input and plot a graph which highlights the abnormal points.
+
