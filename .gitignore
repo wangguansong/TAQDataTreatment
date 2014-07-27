@@ -1,9 +1,12 @@
 *.RData
-TAQData/
-TAQData
-Scripts/
-.Rproj.user/
 .Rhistory
 TAQDataTreatment.Rproj
 *~
+*.swp
 .Rproj.user
+
+# Directories
+TAQData/
+Scripts/
+.Rproj.user/
+Testing/

@@ -11,10 +11,13 @@ TAQSparseSample <- function (stock, ticks, secs, grid) {
   # NOTE: only one of the sparse arguments (ticks, secs, grid) should be
   #       provided. If multiple records exist for the same time stamp,
   #       the latest ones are used.
+  # TODO(07/26/2014): This script can cause problem when the sample size
+  #       is small, as in early years. It needs more error guards.
   #
   # Returns:
-  #   A sparsely sampled data frame, or the original "stock" if the 
-  #   sparse sampling parameters are not correctly specified.
+  #   A data frame with two columns: TIMEGRID is the time stamp of the
+  #   sparse sample; ROWNUM is the corresponding row number of the
+  #   original data frame.
   
   by.ticks <- exists("ticks", mode="numeric")
   by.secs <- exists("secs", mode="numeric")

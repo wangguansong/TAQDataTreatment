@@ -6,23 +6,27 @@
 # stocks and dates, that is each file contains information of one stock
 # and one day.
 # The small files (in csv format) are then compressed into gz files.
-# Each small file has its own header.
-# A index file for the original large data file is produced for future
+# Each small file has its own header row on top.
+# An index file for the original large data file is produced for future
 # "faster" locating information. Stock symbols, trading dates and
 # numbers of observations are printed to the standard output along the
 # process.
 # This is in fact an awk script.
-# This script can work with trade, quote, and millisecond data.
-# The splitted small files are in the same directory as the large file.
+# This script can work with trade, quote. (millisecond data not tested).
+# The splitted small files are generated in the same directory as the
+# large file.
 # 
 # Arguments:
 #   the large data file
 # Returns:
 #   None
+# Example:
+#   sh TAQSplit2gz.sh A_Very_Large_CSV_FILE.gz
 #
 # TODO(Author, 05/16/2013): This script assumes the input is gz file and
-#   there is no index (.ndx) file. If there is an index file it will be
-#   rewritten.
+#   there is no index (.ndx) file. It should detect and adapt to different
+#   file types (csv, gz, and zip). And it should utilize an index file if
+#   one already exists.
 ########################################################################
 # Check Input
 

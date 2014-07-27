@@ -9,5 +9,3 @@ for SYMBOL in "${SYMBOLLIST[@]}"; do
   fi
   mv ${SYMBOL}_*.RData ${SYMBOL}/
 done
-
-

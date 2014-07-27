@@ -23,8 +23,8 @@ TAQOutLiersBHLS <- function(price, allowed=10, k=25) {
                           na.rm=T)
   id.outliers <- matrix(F, nrow=N, ncol=length(allowed))
   for (i in 1:length(allowed)) {
-    id.outliers[, i] <- (price > rolling.median + allowed[i] * rolling.mad |
-                           price < rolling.median - allowed[i] * rolling.mad)
+    id.outliers[, i] <- abs(price - rolling.median) >
+                        allowed[i] * rolling.mad
   }
   return(id.outliers)
 }

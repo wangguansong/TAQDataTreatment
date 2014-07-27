@@ -2,68 +2,115 @@ TAQ Data Treatment
 
 TAQ Database contains intradaily trading and quoting records. The
 trading volume has greatly increased due to the electronic communication
-network. Users can use SAS to directly fetch the dataset. When using
-the TAQ website to request and download files from TAQ, they usually
-have large sizes and are difficult to work on.
+network. Users can use SAS to directly fetch the dataset from TAQ.
+When requesting and downloading data directly from TAQ website, the
+files are usually huge and difficult to work with.
 This project uses shell script (mainly awk) and Rscript to seperate the
 large files into small data files (R data files) according to each stock
-and trading date. Some preliminary data treatment are also included to
-filter out faulty records.
-The files and scripts are described in the following.
+and each date. Some preliminary data treatment are also included such as
+faulty records filter.
+
+The files and scripts are described in the following, categorized by
+their functions.
 
 ------------------------------------------------------------------------
+(1) General Information
 
-dj30.txt
-It contains a list of symbols of DJ30 stocks (in 2012). It is used to
-obtain DJ30 stocks' intradaily records in TAQ database.
+    dj30.txt
+  It contains a list of symbols of DJ30 stocks (as in 2012). It is used
+  in the symbol field when pulling data from TAQ database. 
 
-dj30_name.csv
-It contains the symbols, names, and stock exchanges of the DJ30 stocks.
+    dj30_name.csv
+  It contains the symbols, names, and exchanges of the DJ30 stocks.
 
-halfdays.txt
-It contains half trading days from 1993 to 2012. The format is numeric:
-yyyymmdd.
+    halfdays.txt
+  It contains a list of half trading days from 1993 to 2012. The format
+  is yyyymmdd.
 
-------------------------------------------------------------------------
-
-TAQSplit2RData.sh
-TAQcsv2RData.R
-TAQSplit2gz.sh
-SortRData.sh
-They are the scripts to seperate large files into either RData files or
-compressed csv files. The small files are in the same directory as the
-large file. Then the files can be sorted into sub-directories according
-to stocks. For each large file the script creates an index file with
-the line numbers of each stock/date.
-
-TAQExtract.sh
-TAQExtract.R
-Given a symbol and a date, the script find the records from the large
-data file. If an index file exists, it utilizes the information.
+    Overview of TAQ Data.pdf
+  As titled.
 
 ------------------------------------------------------------------------
+(2) Split Huge Data Files
 
-TAQFilter.R
-An R function that takes the data frame or the path to the RData file as
-input and returns a logical vector whose TRUE implies a normal record
-and FALSE implies a faulty record.
+    TAQSplit2gz.sh
+  Split TAQ data file (csv, gz, or zip) into small pieces according to
+  stocks and dates, that is each file contains information of one stock
+  and one day.
+  
+    TAQSplit2RData.sh
+  The core of this project. Similar as above, while it further converts
+  csv files into RData files. It depends on the following R script (and
+  R program).
 
-TAQError.R
-An R function that takes the data frame or the path to the RData file as
-input and returns a logical vector which has FALSE on the prices that
-yield obsurd returns (those may be caused by mislocated decimal point).
+    TAQcsv2RData.R
+  Read a csv file into R and export into an RData file. The column types
+  are explicitly specified.
 
-TAQOutLiersBHLS.R
-An R function that takes a vector of prices and returns a logical vector
-which has TRUE on the possible outliers.
+    SortRData.sh
+  If the large raw data file contains many stocks and many dates, the
+  splitting process will generate a large amount of smaller files. This
+  script sort those files into sub-directories by stock symbols.
 
-TAQSparseSample.R
-An R function that takes the data frame and returns a sparsed sampled
-data frame with only time and price columns.
+    TAQLoop.sh
+  Loop through all symbols and dates for a large file then create an
+  index file or run a script if provided on a small csv file for each
+  symbol/date combination.
 
 ------------------------------------------------------------------------
+(3) Retrieve Records of One Stock/Date Pair
 
-TAQCondPlot.R
-An R function that takes the data frame or the path to the RData file as
-input and plot a graph which highlights the abnormal points.
+    TAQExtract.sh
+  Given a symbol and a date, the script find the records from the large
+  data file. If an index file exists, it utilizes the information. It
+  may take a few minutes depending on where the records locate in the
+  large file.
 
+    TAQExtract.R
+  A wrapper of above shell script in R.
+
+------------------------------------------------------------------------
+(4) Basic Filters for Bad Records
+
+    TAQFilter.R
+  An R function that takes the data frame or the path to the RData file
+  as input and returns a logical vector with the same length as the row
+  number of the data frame, where TRUE implies a normal record and FALSE
+  implies a faulty record.
+
+    TAQError.R
+  An R function that takes the data frame or the path to the RData file
+  as input and returns a logical vector with the same length as the row
+  number of the data frame, where FALSE implies an obsurd price (which
+  may be caused by mislocated decimal point for example).
+
+    TAQOutLiersBHLS.R
+  An R function that takes a vector of prices and returns a logical
+  vector with the same length as the row number of the data frame, where
+  TRUE implies a possible outlier.
+
+    TAQSparseSample.R
+  An R function that takes the stock data frame and returns a data frame
+  with the row numbers of the original data frame for each desired time
+  stamp.
+
+    TAQCondPlot.R
+  An R function that takes the data frame or the path to the RData file
+  as input and plot a graph which highlights the abnormal points.
+
+------------------------------------------------------------------------
+(5) Create Working Samples
+
+    TAQApplyFilter.R
+  An R function that takes the path of an RData, checks formats of each
+  column, updates the RData if necessary, applies selected filters and
+  saved them in a filter file (RData format).
+
+    TAQCreateSamples.R
+  Similar as above, but with more filters applied. And it will report
+  error rather than update original file if the formats checking doesn't
+  go through.
+
+    TAQCheckData.R
+  An R script that creates a data frame of metadata of small RData files
+  and fills out the data frame if filter files have been created.
