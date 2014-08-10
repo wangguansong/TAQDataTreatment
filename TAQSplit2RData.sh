@@ -5,7 +5,7 @@
 # stocks and dates, that is each file contains information of one stock
 # and one day.
 # The small files are transformed into RData files using an R script.
-# A index file for the original large data file is produced for future
+# An index file for the original large data file is produced for future
 # "fast" locating information. Stock symbols, trading dates and numbers
 # of observations are printed to the standard output along the process.
 # This is in fact an awk script.
@@ -23,13 +23,14 @@
 #   create sub-directories for each stock and put the RData files in
 #   them.
 # Dependence:
-#   RScript (bin) and TAQcsv2RData.R (file).
+#   Rscript (bin) and TAQcsv2RData.R (file).
 # Usage:
 #   sh TAQSplit2RData.sh BIGFILE.csv.gz ; sh SortRData.sh
 #
 # TODO(Author, 05/16/2013): This script assumes the input is gz file and
 #   there is no index (.ndx) file. If there is an index file it will be
 #   rewritten.
+# TODO: Test for millisecond
 ########################################################################
 # Check Input
 
@@ -70,7 +71,6 @@ NR==2 {
   print header > outfile
   print $0 >> outfile
   }
-
 
 NR>2{
   new_date=$col_date

@@ -22,16 +22,23 @@ if ("PRICE" %in% header) {
     # TODO: specify column types for milli-second data
   } else {
     coltypes <- c("factor", "integer", "character", "numeric",
+                 # SYMBOL,   DATE,      TIME,        PRICE,
                   "integer", "integer", "integer", "character",
+                 # SIZE,      G127,      CORR,      COND,      
                   "character")
+                 # EX
+
   }
 } else {
   if ("TIME_M" %in% header) {
     # TODO: specify column types for milli-second data
   } else {
     coltypes <- c("factor", "integer", "character", "numeric",
+                 # SYMBOL,   DATE,      TIME,        BID,
                   "numeric", "integer", "integer", "integer",
+                 # OFR,       BIDSIZ,    OFRSIZ,    MODE,
                   "character", "character")
+                 # EX,          MMID
   }
 }
 temp.df <- read.csv(csvfilename, colClasses=coltypes)
