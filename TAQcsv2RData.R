@@ -23,9 +23,9 @@ if ("PRICE" %in% header) {
   } else {
     coltypes <- c("factor", "integer", "character", "numeric",
                  # SYMBOL,   DATE,      TIME,        PRICE,
-                  "integer", "integer", "integer", "character",
+                  "integer", "integer", "integer", "factor",
                  # SIZE,      G127,      CORR,      COND,      
-                  "character")
+                  "factor")
                  # EX
 
   }
@@ -37,8 +37,8 @@ if ("PRICE" %in% header) {
                  # SYMBOL,   DATE,      TIME,        BID,
                   "numeric", "integer", "integer", "integer",
                  # OFR,       BIDSIZ,    OFRSIZ,    MODE,
-                  "character", "character")
-                 # EX,          MMID
+                  "factor", "factor")
+                 # EX,       MMID
   }
 }
 temp.df <- read.csv(csvfilename, colClasses=coltypes)

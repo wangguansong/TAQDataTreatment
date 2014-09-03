@@ -41,6 +41,11 @@ FILEEXT=$(echo $1 | awk -F. '{ if (NF>1) { print $NF }}')
 BASENAME=$(basename $INFILE .$FILEEXT)
 BASEDIR=$(dirname $INFILE)
 
+if [ -a $INDEXFILE ]; then
+  echo "Index file exists."
+  exit 1
+fi
+
 echo "# start at: $(date)" 
 echo "# start at: $(date)" >> $INDEXFILE
 
@@ -90,6 +95,7 @@ NR>2{
 
     system("Rscript TAQcsv2RData.R " outfile)
     system("rm " outfile)
+    close(outfile)
     outfile="'$BASEDIR'/" new_symbol "_" new_date ".csv"
     print header > outfile
     print $0 >> outfile
