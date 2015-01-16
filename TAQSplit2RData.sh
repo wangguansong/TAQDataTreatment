@@ -1,5 +1,5 @@
-########################################################################
 #!/bin/sh
+########################################################################
 # 
 # Split TAQ data file (csv, gz, or zip) into small pieces according to
 # stocks and dates, that is each file contains information of one stock
@@ -23,19 +23,19 @@
 #   create sub-directories for each stock and put the RData files in
 #   them.
 # Dependence:
-#   Rscript (bin) and TAQcsv2RData.R (file).
+#   Rscript (R binary) and TAQcsv2RData.R (file).
 # Usage:
 #   sh TAQSplit2RData.sh BIGFILE.csv.gz ; sh SortRData.sh
 #
-# TODO(Author, 05/16/2013): This script assumes the input is gz file and
-#   there is no index (.ndx) file. If there is an index file it will be
-#   rewritten.
+# TODO(05/16/2013): This script assumes the input is gz file and
+#   there is no index (.ndx) file. If there is an index file it will
+#   prompt a warning and stop to avoid rewritten it accidentally.
 # TODO: Test for millisecond
 ########################################################################
 # Check Input
 
 INFILE=$1
-# TODO(Author, 05/16/2013): check input
+# TODO(05/16/2013): check input
 INDEXFILE="$1.ndx"
 FILEEXT=$(echo $1 | awk -F. '{ if (NF>1) { print $NF }}')
 BASENAME=$(basename $INFILE .$FILEEXT)

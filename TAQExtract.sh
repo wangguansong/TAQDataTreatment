@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Extract information from gz file for one stock and one day.
+# Extract records from gz file for one stock and one day.
 #
 # Arguments
 #   -i indexfile: the index file (optional). If the index file exists

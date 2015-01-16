@@ -1,6 +1,9 @@
-########################################################################
 #!/bin/sh
+########################################################################
 # Sort RData files into subdirectories by stock symbols.
+# USAGE:
+#   sh SortRDataBySymbol
+#   sh SortRDataBySYmbol Directory/To/Data/Folder
 
 BASEDIR=$1
 if [ -z $BASEDIR ]; then

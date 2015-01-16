@@ -8,10 +8,10 @@ files are usually huge and difficult to work with.
 This project uses shell script (mainly awk) and Rscript to seperate the
 large files into small data files (R data files) according to each stock
 and each date. Some preliminary data treatment are also included such as
-faulty records filter.
+filters for faulty records.
 
 The files and scripts are described in the following, categorized by
-their functions.
+their functionality.
 
 ------------------------------------------------------------------------
 (1) General Information
@@ -36,7 +36,7 @@ their functions.
     TAQSplit2gz.sh
   Split TAQ data file (csv, gz, or zip) into small pieces according to
   stocks and dates, that is each file contains information of one stock
-  and one day.
+  and one day. The smaller csv files are then compressed into gz files.
   
     TAQSplit2RData.sh
   The core of this project. Similar as above, while it further converts
@@ -47,7 +47,7 @@ their functions.
   Read a csv file into R and export into an RData file. The column types
   are explicitly specified.
 
-    SortRData.sh
+    SortRDataBySymbol.sh
   If the large raw data file contains many stocks and many dates, the
   splitting process will generate a large amount of smaller files. This
   script sort those files into sub-directories by stock symbols.

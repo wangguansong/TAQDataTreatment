@@ -21,9 +21,6 @@ TAQCreateSamples <- function(file.path, check.file=TRUE,
   if (check.file) {
     headers <- names(stock)
     # general columns
-    if ("SYMBOL" %in% headers || "DATE" %in% headers) {
-      stop(file.path, " has SYMBOL or DATE field.")
-    }
     if (! is.numeric(stock$TIME)) {
       stop(file.path, " has wrong TIME field format.")
     }
